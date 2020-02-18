@@ -8,18 +8,20 @@
       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!--1、指定当前服务/应用的名字（同样的服务名字相同，不要和其它的服务同名）-->
-    <dubbo:application name="user-provider"/>
+    <dubbo:application name="user-consumer"/>
 
     <!--2、指定注册中心的位置（注册中心不同，服务地址的写法不同）-->
-    <dubbo:registry address="zookeeper://192.168.205.128:2181"/>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <!--3、指定通信规则（通信协议&通信端口）-->
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
-    <!--4、声明需要暴露的服务接口，ref属性要指向容器中的接口实现对象-->
-    <!--<dubbo:service ref="userService" interface="cn.coreqi.service.UserService"/>-->
+    <!--4、服务消费者引用服务配置-->
+    <dubbo:reference id="userService" interface="com.myke.consumer.api.UserService"/>
 
-    <!--5.服务实现-->
-    <!--<bean id="userService" class="cn.coreqi.service.impl.UserServiceImpl"/>-->
+    <!--5.实例化bean-->
+    <bean id="orderService" class="com.myke.consumer.service.OrderServiceImpl">
+        <constructor-arg name="userService" ref="userService"/>
+    </bean>
 
 </beans>

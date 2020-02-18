@@ -13,6 +13,11 @@
 
 
     <dependencies>
-       
+        <!--rpc api-->
+        <dependency>
+            <groupId>com.myke</groupId>
+            <artifactId>dubbo-consumer-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

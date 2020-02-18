@@ -1,20 +1,18 @@
-package com.myke.provider;
+package com.myke.consumer;
 
 import ch.qos.logback.classic.util.ContextInitializer;
-import com.myke.provider.service.UserServiceImpl;
+import com.myke.consumer.service.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 
 /**
- * 服务启动类
- *
  * @author: zh
- * @date: 2020/2/17/017 22:07
+ * @date: 2020/2/18/018 22:16
  */
 @Slf4j
-public class ProviderApplication {
+public class ConsumerApplication {
     static {
         //加载日载
         System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "logback-spring.xml");
@@ -22,14 +20,15 @@ public class ProviderApplication {
 
     public static void main(String[] args) throws IOException {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[]{
-                        "dubbo-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-consumer.xml");
         log.info(context.getDisplayName() + ": here");
         context.start();
-        log.info("userService beanName:[{}]", context.getBeanNamesForType(UserServiceImpl.class));
+        log.info(" ConsumerApplication 服务已经启动...");
 
-        log.info("ProviderApplication 服务已经启动...");
+        //dubbo 服务消费
+        OrderServiceImpl orderService = context.getBean(OrderServiceImpl.class);
+        orderService.say();
+
         System.in.read();
     }
 }
